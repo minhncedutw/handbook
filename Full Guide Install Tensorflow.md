@@ -1,8 +1,9 @@
-I. INSTALATION
-1. Dependencies
+# I. INSTALATION
+
+## 1.Dependencies
 `sudo apt-get install htop gcc make cmake git`
 
-2. Download and Install [NVIDIA Driver](https://www.nvidia.com/Download/index.aspx)
+## 2.Download and Install [NVIDIA Driver](https://www.nvidia.com/Download/index.aspx)
 ```
 sudo add-apt-repository ppa:graphics-drivers/ppa  
 sudo apt-get update
@@ -11,7 +12,7 @@ nvidia-smi
 reboot
 ```
 
-3. Install docker (Optional)
+## 3.Install docker (Optional)
 (Source: https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-16-04)
 ```
 sudo apt-get update
@@ -29,7 +30,7 @@ su - ${USER}
 id -nG
 ```
 
-```
+```sh
 docker ps
 docker images
 docker start <ID>
@@ -38,16 +39,17 @@ docker stop $(docker ps -a -q)
 docker rm $(docker ps -a -q)
 ```
 
-4. Install nvidia-docker (Optional)
+## 4.Install nvidia-docker (Optional)
+
 (Source: http://itproguru.com/expert/2016/10/docker-create-container-change-container-save-as-new-image-and-connect-to-container/)
-# If you have nvidia-docker 1.0 installed: we need to remove it and all existing GPU containers
-```
+#### Notice: If you have nvidia-docker 1.0 installed: we need to remove it and all existing GPU containers
+```sh
 docker volume ls -q -f driver=nvidia-docker | xargs -r -I{} -n1 docker ps -q -a -f volume={} | xargs -r docker rm -f
 sudo apt-get purge -y nvidia-docker
 ```
 
-# Add the package repositories
-```
+#### Add the package repositories
+```sh
 curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | \
   sudo apt-key add -
 curl -s -L https://nvidia.github.io/nvidia-docker/ubuntu16.04/amd64/nvidia-docker.list | \
@@ -55,30 +57,37 @@ curl -s -L https://nvidia.github.io/nvidia-docker/ubuntu16.04/amd64/nvidia-docke
 sudo apt-get update
 ```
 
-# Install nvidia-docker2 and reload the Docker daemon configuration
-```
+#### Install nvidia-docker2 and reload the Docker daemon configuration
+```sh
 sudo apt-get install -y nvidia-docker2
 sudo pkill -SIGHUP dockerd
 ```
 
-# Test nvidia-smi with the latest official CUDA image
+#### Test nvidia-smi with the latest official CUDA image
 `docker run --runtime=nvidia --rm nvidia/cuda nvidia-smi`
 
-5. Install NVIDIA-DIGITS (Optional)
-(Source: https://github.com/NVIDIA/nvidia-docker/wiki/DIGITS)
+## 5.Install NVIDIA-DIGITS (Optional)
+
+Source: https://github.com/NVIDIA/nvidia-docker/wiki/DIGITS
+
 `docker run --runtime=nvidia --name digits -d -p 5000:5000 -v /opt/mnist:/data/mnist nvidia/digits`
+
 OR
-`docker run --runtime=nvidia --name digits -d -p 5000:5000 -p 6006:6006 -v digits-jobs:/jobs nvidia/digits:6.0`
+
+```sh
+docker run --runtime=nvidia --name digits -d -p 5000:5000 -p 6006:6006 -v digits-jobs:/jobs nvidia/digits:6.0
 
 docker exec -it <ID> /bin/bash
 
 exit
+```
 
-5. Download and Install [CUDA 9.0](https://developer.nvidia.com/cuda-90-download-archive)
+## 6.Download and Install [CUDA 9.0](https://developer.nvidia.com/cuda-90-download-archive)
 
-6. Download [Cudnn](https://developer.nvidia.com/cudnn) then copy to CUDA installed folder
+## 7.Download [Cudnn](https://developer.nvidia.com/cudnn) then copy to CUDA installed folder
 
-7. Install [Anaconda](https://www.anaconda.com/download/) or [Miniconda](https://conda.io/miniconda.html):
+## 8.Install [Anaconda](https://www.anaconda.com/download/) or [Miniconda](https://conda.io/miniconda.html):
+
 Or by command:
 ```sh
 curl -O https://repo.continuum.io/archive/Anaconda3-5.0.1-Linux-x86_64.sh
@@ -86,9 +95,10 @@ bash Anaconda3-5.0.1-Linux-x86_64.sh
 source ~/.bashrc
 ```
 
-8. Conda install pakages:
-conda create --name ENV_NAME python=3.5
-conda install --name ENV_NAME python=3.5
+## 9.Conda install pakages:
+```
+conda create --name ENV_NAME python=3.6
+conda install --name ENV_NAME python=3.6
 
 source activate ENV_NAME
 
@@ -96,9 +106,13 @@ conda install -c conda-forge pip nose h5py ipython jupyter matplotlib numpy pand
 conda install -c conda-forge statsmodels seaborn scrapy sympy requests dill graphviz python-graphviz tpot tqdm scipy cython opencv -y
 conda install -c conda-forge bcolz spacy expat plotnine bokeh-y
 conda install -c conda-forge theano -y
-conda install pytorch -c pytorch -y
-conda install -c anaconda tensorflow-gpu -y
-conda install -c anaconda keras-gpu -y
+conda install pytorch -c pytorch # Or: pip install http://download.pytorch.org/whl/cu90/torch-0.4.1-cp36-cp36m-win_amd64.whl
+pip install torchvision
+conda install -c anaconda tensorflow-gpu -y # Or: pip install --upgrade  tensorflow-gpu
+conda install -c anaconda keras-gpu -y # Or: pip install Keras
+pip install vtk
+pip install mayavi
+```
 
 Optional:
 ```
@@ -112,26 +126,38 @@ conda install -c conda-forge plotly -y
 conda install -c anaconda numbapro -y
 ```
 
-9. VERIFY SUCCESSFUL INSTALLATION
+## 10.VERIFY SUCCESSFUL INSTALLATION
+
+```python
 import platform
 print(platform.python_version())
+```
 
+```python
 import torch
 torch.cuda.get_device_name(0)
+```
 
+```python
 from keras import backend as K
 K.tensorflow_backend._get_available_gpus()
+```
 
+```python
 from tensorflow.python.client import device_lib
 print(device_lib.list_local_devices())
+```
 
+```python
 import tensorflow as tf
 a = tf.constant([1.0, 2.0, 3.0, 4.0, 5.0, 6.0], shape=[2, 3], name='a')
 b = tf.constant([1.0, 2.0, 3.0, 4.0, 5.0, 6.0], shape=[3, 2], name='b')
 c = tf.matmul(a, b)
 sess = tf.Session(config=tf.ConfigProto(log_device_placement=True))
 print(sess.run(c))
+```
 
+```python
 import tensorflow as tf
 a = tf.constant([1.0, 2.0, 3.0, 4.0, 5.0, 6.0], shape=[2, 3], name='a')
 b = tf.constant([1.0, 2.0, 3.0, 4.0, 5.0, 6.0], shape=[3, 2], name='b')
@@ -139,55 +165,72 @@ c = tf.matmul(a, b)
 sess = tf.Session()
 print(sess.run(c))
 sess.close()
+```
 
 
-II. UTILITIES
-1. Check and Free GPU
+# II. UTILITIES
+
+## 1.Check and Free GPU
+```sh
 sudo fuser -v /dev/nvidia*
 sudo kill -9 <PID>
+```
 
-2. Install Pycharm
+## 2.Install Pycharm
 Download Pycharm Professional from JetBrain
 
 start PyCharm from a command-line: 
+```
 cd /path/to/pycharm/bin
 sh pycharm.sh
+```
 
 invoke "Tools | Create Desktop Entry"
 exit PyCharm
 restart a session (*)
 launch PyCharm from Dash
 
-3. Conda commands:
+## 3.Conda commands:
 
-# CLONE environment
-conda create --name NEW_ENV --clone OLD_ENV
+#### CLONE environment
+`conda create --name NEW_ENV --clone OLD_ENV`
 
-# EXPORT environment
-conda env export | cut -f 1 -d '=' | grep -v "^prefix: " > environment.yml
+#### EXPORT environment
+`conda env export | cut -f 1 -d '=' | grep -v "^prefix: " > environment.yml`
 
-# CREATE environment from SHARED environment file
-`conda env create -f environment.yml`
 Or for pip:
+
 `conda list -e > requirements.txt`
 
-# REMOVE environment
-`conda remove --name ENV_NAME --all`
+#### CREATE environment from SHARED environment file
+`conda env create -f environment.yml`
+
+Or for pip:
+
 `pip install -r requirements.txt`
 
-# REMOVE package in environment
-conda remove --name ENV_NAME PACKAGE_NAME
+#### REMOVE environment
+`conda remove --name ENV_NAME --all`
 
-# UPDATE in conda
+#### REMOVE package in environment
+`conda remove --name ENV_NAME PACKAGE_NAME`
+
+#### UPDATE in conda
+```sh
 conda update python
 conda update conda
+```
 
- References:
- https://blog.slavv.com/the-1700-great-deep-learning-box-assembly-setup-and-benchmarks-148c5ebe6415
- https://conda.io/docs/user-guide/tasks/manage-environments.html
- https://medium.com/@vivek.yadav/deep-learning-setup-for-ubuntu-16-04-tensorflow-1-2-keras-opencv3-python3-cuda8-and-cudnn5-1-324438dd46f0
+References:
  
-course:
+https://blog.slavv.com/the-1700-great-deep-learning-box-assembly-setup-and-benchmarks-148c5ebe6415
+ 
+https://conda.io/docs/user-guide/tasks/manage-environments.html
+ 
+https://medium.com/@vivek.yadav/deep-learning-setup-for-ubuntu-16-04-tensorflow-1-2-keras-opencv3-python3-cuda8-and-cudnn5-1-324438dd46f0
+ 
+Course:
+
 https://medium.com/@Rapchik/running-google-s-deep-learning-course-material-under-windows-82d468b6d5be
 
 
