@@ -10,14 +10,33 @@ sudo dpkg -i code_1.26.0-1534177765_amd64.deb
 - press: ctrl shift x
 - install: python, code runner
 
-#### Open a folder of project:
+#### Open a project folder:
 ```commandline
 cd <folder path>
 code .
 ```
 
-#### Open terminal, type:
+#### Show/Hide terminal table, type:
 ```
 ctrl `
 ```
 
+#### Run code
+Run on terminal, type:
+```commandline
+python file.py
+```
+
+Run on editor: right click, select **Run Python File on Terminal**
+
+#### Debug
+```
+F5      Start Debugging
+F10     Step over
+F11     Step into
+```
+
+#### Switch interpreter:
+- press: ctrl shift p
+- type: >Python: Select Interpreter
+- select expected interpreter
