@@ -6,6 +6,19 @@ ssh -L 8888:localhost:8888 ACCOUNT@SERVER_IP
 jupyter notebook --no-browser
 ```
 
+#### Jupyter lab install extension
+```commandline
+# Install extension packages for jupyter lab
+jupyter labextension install @jupyterlab/shortcutui
+jupyter labextension install @jupyterlab/google-drive
+jupyter labextension install @jupyterlab/github
+jupyter labextension install jupyterlab-drawio
+
+jupyter labextension install @jupyterlab/git
+pip install jupyterlab-git
+jupyter serverextension enable --py jupyterlab_git
+```
+
 ## Tip
 #### Start with pytorch-based
 ```python
