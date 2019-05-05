@@ -7,7 +7,7 @@
 sudo dpkg -i code_1.26.0-1534177765_amd64.deb
 ```
 4. Install extensions:
-- press: ctrl shift x
+- press: `ctrl shift x`
 - install: python, code runner
 
 #### Open a project folder:
@@ -37,6 +37,6 @@ F11     Step into
 ```
 
 #### Switch interpreter:
-- press: ctrl shift p
-- type: >Python: Select Interpreter
+- press: `ctrl shift p`
+- type: `>Python: Select Interpreter`
 - select expected interpreter
