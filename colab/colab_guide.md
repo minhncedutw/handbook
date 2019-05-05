@@ -16,9 +16,12 @@ for file in uploaded.keys():
 
 #### Google Colab hotkeys
 ```
-Ctrl M A
-Ctrl M B
-Ctrl M D
+ctrl m a     # insert cell above
+ctrl m b     # insert cell below
+ctrl m d     # delete cell
+ctrl m c     # copy cell
+ctrl m x     # cut cell
+ctrl m v     # paste cell
 ```
 
 #### Colab command line
