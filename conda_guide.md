@@ -107,3 +107,56 @@ dependencies:
   - torchvision
   - tqdm
 ```
+
+#### EXPORT environment
+```commandline
+conda env export | cut -f 1 -d '=' | grep -v "^prefix: " > environment.yml
+```
+```commandline
+conda list -e > requirements.txt
+```
+
+#### CREATE environment from SHARED environment file
+```commandline
+conda env create -f environment.yml
+```
+```commandline
+pip install -r requirements.txt
+```
+
+#### REMOVE package in environment
+`conda remove --name ENV_NAME PACKAGE_NAME`
+
+#### REMOVE environment
+`conda remove --name ENV_NAME --all`
+
+#### UPDATE in conda
+```commandline
+conda update python
+conda update conda
+```
+
+#### CLONE environment
+```commandline
+conda create --name NEW_ENV --clone OLD_ENV
+```
+
+#### CLEAN trash packages
+```commandline
+conda clean -a -y
+conda clean -pt # removes any unextracted tarballs, and any extracted packages that are not currently linked into an environment
+# or
+conda clean -a --dry-run # If you want to know what files would be deleted before actually deleting
+```
+
+#### Symbol link for conda's python to avoid CONFLICTION with system python (UBUNTU)
+```commandline
+mkdir .symlinks
+cd .symlinks
+
+ln -s /home/user/miniconda3/bin/conda conda
+ln -s /home/user/miniconda3/bin/activate activate
+ln -s /home/user/miniconda3/bin/deactivate deactivate
+
+export PATH="/home/user/.symlinks:$PATH"
+```
