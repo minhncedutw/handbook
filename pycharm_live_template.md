@@ -1,3 +1,4 @@
+1. class learner
 ```python
 import tensorflow as tf
 from keras.models import Model
@@ -131,4 +132,13 @@ class $class$(object):
         # 3: Standard the output.
         
         return
+```
+
+2. docstring:
+```python
+"""
+Description: 
+:param NAME: TYPE, MEAN
+:return: TYPE, MEAN
+"""
 ```
