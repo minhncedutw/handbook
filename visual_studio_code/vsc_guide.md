@@ -40,3 +40,23 @@ F11     Step into
 - press: `ctrl shift p`
 - type: `>Python: Select Interpreter`
 - select expected interpreter
+
+#### Create templates
+- Go to `File > Preferences > User Snippets`
+- Select Python
+- In `python.json`, add code this kind:
+```json
+...
+  "Generate docstring": {
+		"prefix": "tdoc",
+		"body": [
+			"\"\"\"",
+			"Description: ",
+			":param NAME: TYPE, MEAN",
+			":return: TYPE, MEAN",
+			"\"\"\""
+		],
+		"description": "Template docstring"
+	},
+...
+```
