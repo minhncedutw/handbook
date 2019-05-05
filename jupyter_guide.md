@@ -19,7 +19,6 @@ print(torch.cuda.set_device(0))
 ```
 
 #### Start with tensorflow-based
-# !conda list
 ```python
 # !conda list
 %reload_ext autoreload
