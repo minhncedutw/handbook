@@ -124,6 +124,12 @@ conda env create -f environment.yml
 pip install -r requirements.txt
 ```
 
+#### Revise installation
+```
+conda list --revisions
+conda install --revision 2
+```
+
 #### REMOVE package in environment
 `conda remove --name ENV_NAME PACKAGE_NAME`
 
