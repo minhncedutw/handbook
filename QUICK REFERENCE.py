@@ -1,4 +1,14 @@
 # ======================================================================================================================
+# Print 3 digits after decimal of array
+print(np.around(array[:4], 3))
+
+# ======================================================================================================================
+# GPU
+# SELECT gpu
+os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0" # The GPU id to use, usually either "0" or "1"
+
+# ======================================================================================================================
 # FOR
 # QUICK for
 a = [1, 2, 3, 4, 5]
@@ -117,3 +127,47 @@ class MyCallback(Callback):
         iterations = self.model.optimizer.iterations
         lr_with_decay = lr / (1. + decay * K.cast(iterations, K.dtype(decay)))
         print(K.eval(lr_with_decay))
+
+'''
+===================================================================================================
+Optional arguments
+===================================================================================================
+'''
+def bar(first, second, third, **options):
+    if options.get("action") == "sum":
+        print("The sum is: %d" %(first + second + third))
+
+    if options.get("number") == "first":
+        return first
+
+result = bar(1, 2, 3, action = "sum", number = "first")
+print("Result: %d" %(result))
+
+
+'''
+===================================================================================================
+Test tensorflow or keras function
+===================================================================================================
+'''
+import numpy as np
+aa = np.asarray([[1, 2], [3, 4]])
+bb = np.asarray([[10, 20], [30, 40]])
+
+import keras.backend as K
+import numpy as np
+import tensorflow as tf
+
+def cov_tf(x_val, y_val):
+    x = tf.constant(x_val)
+    y = tf.constant(y_val)
+    cov = tf.matmul(x, y)
+    return cov.eval(session=tf.Session())
+
+def cov_keras(x_val, y_val):
+    x = tf.constant(x_val)
+    y = tf.constant(y_val)
+    cov = K.dot(x, y)
+    return cov.eval(session=tf.Session())
+
+print(cov_tf(aa, bb))
+print(cov_keras(aa, bb))
