@@ -1,4 +1,4 @@
-1. source file:
+### 1. source file:
 ```python
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
@@ -99,7 +99,7 @@ if __name__ == '__main__':
 
 ```
 
-1. class learner
+### 2. class learner:
 ```python
 import tensorflow as tf
 from keras.models import Model
@@ -235,7 +235,7 @@ class $class$(object):
         return
 ```
 
-2. docstring:
+### 3. docstring:
 ```python
 """
 Description: 
