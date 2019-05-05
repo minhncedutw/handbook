@@ -20,11 +20,14 @@ jupyter serverextension enable --py jupyterlab_git
 ```
 
 #### Jupyter hotkeys:
-````
-Ctrl M A
-Ctrl M B
-Ctrl M D
-````
+```
+esc a     # insert cell above
+esc b     # insert cell below
+esc d d   # delete cell
+esc c     # copy cell
+esc x     # cut cell
+esc v     # paste cell
+```
 
 ## Tip
 #### Start with pytorch-based
