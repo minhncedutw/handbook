@@ -19,6 +19,13 @@ pip install jupyterlab-git
 jupyter serverextension enable --py jupyterlab_git
 ```
 
+#### Jupyter hotkeys:
+````
+Ctrl M A
+Ctrl M B
+Ctrl M D
+````
+
 ## Tip
 #### Start with pytorch-based
 ```python
