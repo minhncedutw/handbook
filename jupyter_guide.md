@@ -1,6 +1,7 @@
 #### Jupyter access remote server through ssh
 ```commandline
-ssh -L 8000:localhost:8888 sammy@your_server_ip
+ssh -L 8888:localhost:8888 ACCOUNT@SERVER_IP
+# then type server's PASSWORD
 ```
 
 ## Tip
