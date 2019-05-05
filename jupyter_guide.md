@@ -2,6 +2,8 @@
 ```commandline
 ssh -L 8888:localhost:8888 ACCOUNT@SERVER_IP
 # then type server's PASSWORD
+...
+jupyter notebook --no-browser
 ```
 
 ## Tip
