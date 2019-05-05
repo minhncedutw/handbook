@@ -63,3 +63,47 @@ dependencies:
     - primesense
     - vtk
 ```
+
+#### Install Fastai env
+```yaml
+# conda create --name fastai python=3.6 -y
+# conda install cudatoolkit=9.0 pytorch=1.0.0 torchvision -c pytorch -y
+# conda install fastai pillow-simd -c fastai -c scw -y
+# conda env update -f env-fastai.yml --freeze-installed
+name: fastai
+channels:
+  - pytorch
+  - scw
+  - fastai
+  - conda-forge
+  - defaults
+dependencies:
+  - bcolz
+  - beautifulsoup4
+  - bokeh
+  - cudatoolkit=9.0
+  - cython
+  - decorator
+  - dill
+  - fastai
+  - fastprogress
+  - hdf5
+  - ipykernel
+  - ipython
+  - jupyter
+  - jupyterlab
+  - matplotlib
+  - notebook
+  - numpy
+  - pandas
+  - pillow
+  - pip
+  - python
+  - pytorch=1.0.0
+  - requests
+  - scipy
+  - seaborn
+  - statsmodels
+  - torchvision
+  - tqdm
+```
