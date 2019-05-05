@@ -98,6 +98,7 @@ dependencies:
   - pandas
   - pillow
   - pip
+  - pylint
   - python
   - pytorch=1.0.0
   - requests
