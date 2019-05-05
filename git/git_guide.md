@@ -80,7 +80,7 @@ git remote -v
 #### Push a local project to remote blank repository
 ```commandline
 git init
-git remote set-url --add origin https://minhncedutw@bitbucket.org/minhncedutw/test02.git
+git remote add origin https://minhncedutw@bitbucket.org/minhncedutw/test02.git
 git add .
 git commit -am "..."
 git push -u origin master
