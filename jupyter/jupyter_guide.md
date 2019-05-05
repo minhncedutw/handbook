@@ -1,9 +1,9 @@
 #### Jupyter access remote server through ssh
 ```commandline
-ssh -L 8888:localhost:8888 ACCOUNT@SERVER_IP
+ssh -L 8890:localhost:8890 ACCOUNT@SERVER_IP
 # then type server's PASSWORD
 ...
-jupyter notebook --no-browser
+jupyter notebook --ip=8890 --no-browser
 ```
 
 #### Jupyter lab install extension
