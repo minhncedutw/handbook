@@ -1,3 +1,4 @@
+```python
 import tensorflow as tf
 from keras.models import Model
 from keras.layers import Input, Conv2D, Activation, BatchNormalization, MaxPool2D, Flatten, Dense, Reshape, Lambda
@@ -130,3 +131,4 @@ class $class$(object):
         # 3: Standard the output.
         
         return
+```
