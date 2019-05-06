@@ -11,6 +11,13 @@ def mat_mul_out_shape(input_shapes):
     print(shapeA, shapeB)
     assert shapeA[2]==shapeB[1]
     return tuple([shapeA[0], shapeA[1], shapeB[2]])
+
+# Using
+inputs = Input(shape=(num_points, 3))
+transformation1 = T_net(inputs, num_hiddens1=[64, 128, 1024], num_hidden2=[512, 256], num_output_channels=3)
+x1 = Lambda(mat_mul, output_shape=mat_mul_out_shape)([inputs, transformation1])
+model = Model(inputs=inputs, outputs=x1)
+print(model.summary())
 ```
 
 #### --------------------------------------------------
@@ -50,6 +57,12 @@ class MatMul(keras.layers.Layer):
         output_shape = [shape_A[0], shape_A[1], shape_B[2]]
         return tuple(output_shape)
 
+# Using
+inputs = Input(shape=(num_points, 3))
+transformation1 = T_net(inputs, num_hiddens1=[64, 128, 1024], num_hidden2=[512, 256], num_output_channels=3)
+x1 = MatMul()([inputs, transformation1])
+model = Model(inputs=inputs, outputs=x1)
+print(model.summary())
 ```
 
 #### --------------------------------------------------
