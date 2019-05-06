@@ -22,11 +22,30 @@ ctrl `
 ```
 
 #### Connect to remote server
+Guide steps:
+ - Download & Install [Visual Studio Code Insiders program](https://code.visualstudio.com/insiders/)
+ - Open installed `VSCode Insiders` program
+ - Install extension `REMOTE DEVELOPMENT`
+ - Open `File > Prefences > Settings`. 
+ - In `User` tab, select `Extensions > Remote-SSH`
+ - Tick the `Always reveal the SSH login terminal` at `Remote.SSH:Show Login Terminal`
+ - Click Remote SSH icon(it looks like the monitor, and is right below Extensions icon), you will see `Connection` panel.
+ - Click at its configuration icon, to open ssh config file(often: /home/user/.ssh/config) and code like below:
+ ```
+ # Read more about SSH config files: https://linux.die.net/man/5/ssh_config
+Host RemoteServer
+    HostName 140.124.xx.xxx
+    User sofin
+ ```
+ - Press `ctrl shift p` and type `>Remote-SSH: Connect to Host...`, select RemoteServer. Type password into terminal to access(You may have to press password for several times).
+ - When show `Connected to SSH Host - Please do not close this terminal`, open new terminal(click + at next to `1:SSH Tunel`)
+ - Ok fine. Now open your project folder and enjoy it!
 
 Guide:
  - [Guide 1](https://code.visualstudio.com/blogs/2019/05/02/remote-development#_get-started)
  - [Guide 2](https://code.visualstudio.com/docs/remote/ssh)
  - [Video](https://www.youtube.com/watch?v=rh1Ag41J6IA)
+
 
 #### Run code
 Run on terminal, type:
