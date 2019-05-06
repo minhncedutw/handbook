@@ -75,6 +75,30 @@ arr = np.random.random_sample(size=(10, 10, 10))
 arr = np.random.random(size=(10, 10, 10))
 arr = np.random.rand(10, 10, 10)
 ```
+
+#### numpy random seed(to keep same result at each random)
+```python
+import numpy as np
+np.random.seed(0)
+arr = np.random.randint(low=1, high=10, size=(10, ))
+print(arr)
+arr = np.random.randint(low=1, high=10, size=(10,))
+print(arr)
+arr = np.random.randint(low=1, high=10, size=(10,))
+print(arr)
+```
+```python
+import numpy as np
+np.random.seed(0)
+arr = np.random.randint(low=1, high=10, size=(10, ))
+print(arr)
+np.random.seed(0)
+arr = np.random.randint(low=1, high=10, size=(10,))
+print(arr)
+np.random.seed(0)
+arr = np.random.randint(low=1, high=10, size=(10,))
+print(arr)
+```
  
 #### --------------------------------------------------
 #### `sys.path.append('...')` better than `sys.path.insert(0, '...')`
@@ -85,5 +109,20 @@ Source: https://stackoverflow.com/questions/31291608/effect-of-using-sys-path-in
 > A package is a collection of Python modules: while a module is a single Python file, a package is a directory of Python modules containing an additional __init__.py file
 
 Source: https://stackoverflow.com/questions/7948494/whats-the-difference-between-a-python-module-and-a-python-package
+
+#### --------------------------------------------------
+#### Enum
+```python
+from enum import Enum
+
+class Platform(Enum):
+    WINDOWS = 1
+    UBUNTU = 2
+    COLAB = 3
+    DGX1 = 4
+    none = 5
+
+print(Platform(1), Platform.WINDOWS, Platform['WINDOWS'], Platform(1).name, Platform(1).value)
+```
 
 #### --------------------------------------------------
