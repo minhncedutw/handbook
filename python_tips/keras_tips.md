@@ -1,4 +1,5 @@
 
+#### --------------------------------------------------
 #### lambda(matmul example)
 ```python
 def mat_mul(inputs):
@@ -12,6 +13,7 @@ def mat_mul_out_shape(input_shapes):
     return tuple([shapeA[0], shapeA[1], shapeB[2]])
 ```
 
+#### --------------------------------------------------
 #### keras custom layer(matmul example)
 ```python
 class MatMul(keras.layers.Layer):
@@ -49,3 +51,5 @@ class MatMul(keras.layers.Layer):
         return tuple(output_shape)
 
 ```
+
+#### --------------------------------------------------
