@@ -19,6 +19,7 @@ x1 = Lambda(mat_mul, output_shape=mat_mul_out_shape)([inputs, transformation1])
 model = Model(inputs=inputs, outputs=x1)
 print(model.summary())
 ```
+[Source](https://keras.io/layers/core/)
 
 #### --------------------------------------------------
 #### keras custom layer(matmul example)
@@ -64,5 +65,6 @@ x1 = MatMul()([inputs, transformation1])
 model = Model(inputs=inputs, outputs=x1)
 print(model.summary())
 ```
+[Source](https://keras.io/layers/writing-your-own-keras-layers/)
 
 #### --------------------------------------------------
