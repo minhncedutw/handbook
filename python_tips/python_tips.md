@@ -25,3 +25,42 @@ if not isinstance(inputs, list):
 ```
 
 #### --------------------------------------------------
+#### path
+Declare and type cast
+```python
+from pathlib import Path
+path = Path('/etc') # type casting from `str` to `path`
+path.chmod(mode=)
+```
+Create new path
+```python
+new_path = path/'abc' # create new path by joining path with string
+```
+Make directory
+```python
+path.mkdir(parents=True) # make directory for relative path
+path.mkdir(parents=False) # make directory for absolute path
+
+path.mkdir(exist_ok=False) # make and rewrite existed directory
+path.mkdir(exist_ok=True) # make new directory, and raise error if directory exists
+```
+Get directory
+```python
+print(Path(__file__).resolve()) # get path of current running file
+print(Path(__file__).resolve().parent) # get parent directory of current running file
+print(Path.cwd()) # get directory of root file(if file `a.py` call func at file `b.py`, `b.py` call `Path.cwd()`, return result is directory of file `a.py`, not file `b.py`
+```
+Change chmod
+```python
+path.chmod(mode=0o777) # give full access(More infor at: https://help.ubuntu.com/community/FilePermissions)
+path.stat().st_mode # display new access permission of path
+```
+Source: https://docs.python.org/3/library/pathlib.html#pathlib.Path.mkdir
+
+#### --------------------------------------------------
+#### import
+Good practices for importing:
+ - https://sweetcode.io/python-file-importation-multi-level-directory-modules-packages/
+ - https://chrisyeh96.github.io/2017/08/08/definitive-guide-python-imports.html
+ 
+#### --------------------------------------------------
