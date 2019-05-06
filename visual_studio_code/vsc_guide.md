@@ -21,6 +21,13 @@ code .
 ctrl `
 ```
 
+#### Connect to remote server
+
+Guide:
+ - [Guide 1](https://code.visualstudio.com/blogs/2019/05/02/remote-development#_get-started)
+ - [Guide 2](https://code.visualstudio.com/docs/remote/ssh)
+ - [Video](https://www.youtube.com/watch?v=rh1Ag41J6IA)
+
 #### Run code
 Run on terminal, type:
 ```commandline
