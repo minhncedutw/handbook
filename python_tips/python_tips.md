@@ -64,3 +64,26 @@ Good practices for importing:
  - https://chrisyeh96.github.io/2017/08/08/definitive-guide-python-imports.html
  
 #### --------------------------------------------------
+#### numpy random
+Random integers
+```python
+arr = np.random.randint(low=1, high=10, size=(2, 3, 4)) # random int value from 1 to 9
+```
+Random floats (0-1) # 3 below methods are equal
+```python
+arr = np.random.random_sample(size=(10, 10, 10))
+arr = np.random.random(size=(10, 10, 10))
+arr = np.random.rand(10, 10, 10)
+```
+ 
+#### --------------------------------------------------
+#### `sys.path.append('...')` better than `sys.path.insert(0, '...')`
+Source: https://stackoverflow.com/questions/31291608/effect-of-using-sys-path-insert0-path-and-sys-pathappend-when-loading-modul
+
+#### --------------------------------------------------
+#### Difference between Module & Package
+> A package is a collection of Python modules: while a module is a single Python file, a package is a directory of Python modules containing an additional __init__.py file
+
+Source: https://stackoverflow.com/questions/7948494/whats-the-difference-between-a-python-module-and-a-python-package
+
+#### --------------------------------------------------
