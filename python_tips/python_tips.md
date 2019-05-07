@@ -1,5 +1,31 @@
 
 #### --------------------------------------------------
+#### abbreviation(fastai naming convention)
+Source: https://docs.fast.ai/dev/abbr.html
+
+#### --------------------------------------------------
+#### argmax(one hot encoding to label)
+```python
+labels = np.argmax(probs, axis=2) # one-hot-encoding probabilities to labels(example: axis 2 is axis of classes) 
+```
+#### --------------------------------------------------
+#### identity(label to one hot encoding)
+```python
+onehot = np.identity(n_classes)[labels] 
+```
+
+#### --------------------------------------------------
+#### [::-1] reverse the order of elements in an array along the given axis
+instead of doing
+```python
+img_bgr = img_rgb[:, :, ::-1]
+```
+we can do
+```python
+img_bgr = np.flip(m=img_rgb, axis=2)
+```
+
+#### --------------------------------------------------
 #### raise(show error notification)
 ```python
 raise NotImplementedError("error message")
@@ -123,6 +149,15 @@ class Platform(Enum):
     none = 5
 
 print(Platform(1), Platform.WINDOWS, Platform['WINDOWS'], Platform(1).name, Platform(1).value)
+```
+
+#### --------------------------------------------------
+#### sleep
+```python
+import time
+# Wait for 300 milliseconds
+# .3 can also be used
+time.sleep(.300)
 ```
 
 #### --------------------------------------------------

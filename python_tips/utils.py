@@ -39,12 +39,38 @@ import numpy as np
 #==============================================================================
 # Function Definitions
 #==============================================================================
-def makedirs(path):
-    try:
-        os.makedirs(path)
-    except OSError:
-        if not os.path.isdir(path):
-            raise
+def makedir(path, mode=0o777, parents=True, exist_ok=True):
+    """
+    Description:
+    :param path: [Path, str], path
+    :param mode: [0o777, 0o444, ...], chmod(refer: https://help.ubuntu.com/community/FilePermissions)
+    :param parents: [Path, str], True: if path is relative & False: if path is absolute
+    :param exist_ok: boolean, if path already exists, True: force overwrite & False: raise error
+    :return: TYPE, MEAN
+    """
+    Path(path).mkdir(mode=mode, parents=parents, exist_ok=exist_ok)
+
+
+def onehot_encoding(labels, n_classes):
+    """
+    Description: convert integer labels to one hot
+    :param labels: an [int, ndarray], a label array of shape (d0, d1, d2, ...dn)
+    :param n_classes: an int, number of classes
+    :return: [ndarray], an one hot array of shape (d0, d1, ...dn, n_classes)
+    """
+    onehot = np.identity(n_classes)[labels]
+    return onehot
+
+
+def onehot_decoding(probs, class_axis):
+    """
+    Description: convert one-hot encoding to labels
+    :param probs: [ndarray], an probability array, one-hot-encoding type of shape (d0, d1, ...dn)
+    :param class_axis: int, axis of classes in 'probs' array(0 <= class_axis <= n)
+    :return: [int, ndarray], an label array of shape (d0, d1, ...dn-1)
+    """
+    labels = np.argmax(np.asarray(probs), axis=class_axis)
+    return labels
 
 
 def _sigmoid(x):
