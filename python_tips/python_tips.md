@@ -234,6 +234,7 @@ def callback_list(checkpoint_path, tensorboard_path):
                     write_grads=False, # whether to visualize gradient histograms in TensorBoard. histogram_freq must be greater than 0.
                     write_images=True, # whether to write model weights to visualize as image in TensorBoard.
                     embeddings_freq=0), # frequency (in epochs) at which selected embedding layers will be saved. If set to 0, embeddings won't be computed. Data to be visualized in TensorBoard's Embedding tab must be passed as embeddings_data.
+        # to watch tensorboard: tensorboard --logdir tensorboard_path --host=localhost
         LearningRateScheduler(lr_schedule),
         ReduceLROnPlateau(factor=np.sqrt(0.1),
                           cooldown=0,
