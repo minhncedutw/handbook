@@ -39,7 +39,7 @@ import numpy as np
 #==============================================================================
 # Function Definitions
 #==============================================================================
-def makedir(path, mode=0o777, parents=True, exist_ok=True):
+def makedir(path, mode=0o777, parents=False, exist_ok=False):
     """
     Description:
     :param path: [Path, str], path
