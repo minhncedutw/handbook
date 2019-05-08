@@ -1,29 +1,30 @@
 
+#### --------------------------------------------------
 #### **Force** pull (overwrite existed files)
 ```commandline
 git fetch --all
 git reset --hard origin/master
 ```
 
-#### **Undo** add/commit/push
+#### --------------------------------------------------
+#### **Undo** add hasn't been commit
 ```commandline
-git reflog
-git checkout HEAD@{...}
+git reset
 ```
+
+#### **Undo** commit hasn't been pushed
+1. To revert the latest commit and discard changes in the committed file do:
 ```commandline
-git stash
-git reset --hard <commit_id>
-git stash pop
+git reset --hard HEAD~1
 ```
+2. To revert the latest commit but retain the local changes (on disk) do:
 ```commandline
-git reflog
-git checkout <commit_id>
-git checkout -b <new branch> <commit_id>
-git checkout HEAD~X // x is the number of commits t go back
+git reset --soft HEAD~1
 ```
+
 [Reference source](https://stackoverflow.com/questions/4114095/how-to-revert-a-git-repository-to-a-previous-commit)
 
-
+#### --------------------------------------------------
 #### Merge a file from 'master' branch to another branch
 ```commandline
 git checkout <branch> # change to branch, where you want to merge to
@@ -44,6 +45,7 @@ git fetch
 git rebase origin/master
 ```
 
+#### --------------------------------------------------
 #### Safe pull(pull from remote but keep modified local, then push to remote)
 ```commandline
 git add .
@@ -55,6 +57,7 @@ git pull
 git push -u origin master
 ```
 
+#### --------------------------------------------------
 #### Adjust remote links
 Modify the link of remote 'origin'
 ```commandline
@@ -77,6 +80,7 @@ List remotes
 git remote -v
 ```
 
+#### --------------------------------------------------
 #### Push a local project to remote blank repository
 ```commandline
 git init
@@ -86,11 +90,13 @@ git commit -am "..."
 git push -u origin master
 ```
 
+#### --------------------------------------------------
 #### Pull
 ```commandline
 git pull origin master
 ```
 
+#### --------------------------------------------------
 #### Push
 ```commandline
 git add .
