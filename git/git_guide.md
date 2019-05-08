@@ -46,6 +46,17 @@ git rebase origin/master
 ```
 
 #### --------------------------------------------------
+#### delete remote branch
+```commandline
+git push origin --delete <remote branch name>
+```
+
+#### delete local branch
+```commandline
+git branch --delete <local branch name>
+```
+
+#### --------------------------------------------------
 #### Safe pull(pull from remote but keep modified local, then push to remote)
 ```commandline
 git add .
