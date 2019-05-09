@@ -13,13 +13,13 @@ git reset
 ```
 
 #### **Undo** commit hasn't been pushed
-1. To revert the latest commit and discard changes in the committed file do:
-```commandline
-git reset --hard HEAD~1
-```
-2. To revert the latest commit but retain the local changes (on disk) do:
+1. **Best recommend**: To revert the latest commit but retain the local changes (on disk) do:
 ```commandline
 git reset --soft HEAD~1
+```
+2. To revert the latest commit and discard changes in the committed file do:
+```commandline
+git reset --hard HEAD~1
 ```
 
 [Reference source](https://stackoverflow.com/questions/4114095/how-to-revert-a-git-repository-to-a-previous-commit)
