@@ -243,3 +243,66 @@ def callback_list(checkpoint_path, tensorboard_path):
     ]
     return callback_list
 ```
+
+#### --------------------------------------------------
+#### run a function parallel with main process
+>Below is an example that main process is opencv streaming. 
+When press 't', a process(`foo` function) will run background without interupting main process.
+That process can take input arguments and return results of `foo` function
+```python
+import time
+from threading import Thread
+import cv2
+
+def foo(bar):
+    stime = time.time()
+    for i in range(10000000): pass
+    return "foo " + bar + ' {:f}'.format(time.time() - stime)
+
+class ThreadWithReturnValue(Thread):
+    def __init__(self, group=None, target=None, name=None, args=(), kwargs={}, Verbose=None):
+        Thread.__init__(self, group, target, name, args, kwargs)
+        self._return = None
+        self._finish = False
+
+    def run(self):
+        try:
+            if self._target:
+                self._return = self._target(*self._args, **self._kwargs)
+                self._finish = True
+        finally:
+            del self._target, self._args, self._kwargs
+
+    def join(self, *args):
+        Thread.join(self, *args)
+        self._finish = False
+        return self._return
+
+twrv = ThreadWithReturnValue()
+count = 0
+cap = cv2.VideoCapture(0)
+while (True):
+    # Capture frame-by-frame
+    ret, frame = cap.read()
+
+    # Display the resulting frame
+    cv2.imshow('frame', frame)
+    key = cv2.waitKey(1) & 0xFF
+    if key == ord('q'):
+        break
+    elif key == ord('t'):
+        print("Thread started.")
+        count += 1
+        twrv = ThreadWithReturnValue(target=foo, args=('world! {:d}'.format(count),))
+        twrv.start()
+    if (twrv is not None) and twrv._finish:
+        print(twrv.join())
+        print("Thread finished.")
+
+# When everything done, release the capture
+cap.release()
+cv2.destroyAllWindows()
+```
+Reference source: https://stackoverflow.com/questions/6893968/how-to-get-the-return-value-from-a-thread-in-python
+
+#### --------------------------------------------------
