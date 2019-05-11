@@ -2,6 +2,10 @@
 #### --------------------------------------------------
 #### abbreviation(fastai naming convention)
 Source: https://docs.fast.ai/dev/abbr.html
+Furthermore
+```python
+ptn # pretrained: ptn_model
+```
 
 #### --------------------------------------------------
 #### argmax(one hot encoding to label)
