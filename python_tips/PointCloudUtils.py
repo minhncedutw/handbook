@@ -27,9 +27,6 @@ import os.path
 import sys
 import time
 
-os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
-os.environ["CUDA_VISIBLE_DEVICES"] = ""  # The GPU id to use, usually either "0" or "1"
-
 import numpy as np
 import open3d as op3
 from GeneralUtils import Union, path2str, stack_list_horizontal, sample_arrays
@@ -48,6 +45,7 @@ def label_to_color(labels: np.ndarray) -> np.ndarray:
     :return: ndarray of color codes
     """
     map_label_to_rgb = {
+        0: [0, 0, 0], # black
         1: [0, 255, 0], # green
         2: [0, 0, 255], # blue
         3: [255, 0, 0], # red

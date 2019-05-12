@@ -27,8 +27,8 @@ import os.path
 import sys
 import time
 
-os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
-os.environ["CUDA_VISIBLE_DEVICES"] = ""  # The GPU id to use, usually either "0" or "1"
+# os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
+# os.environ["CUDA_VISIBLE_DEVICES"] = ""  # The GPU id to use, usually either "0" or "1"
 
 from typing import Union, Any, List, Optional
 
@@ -47,6 +47,7 @@ from keras.callbacks import ModelCheckpoint, TensorBoard, ReduceLROnPlateau, Lea
 #==============================================================================
 # Function Definitions
 #==============================================================================
+# x1 = MatMul()([inputs, transformation1])
 class MatMul(kr.layers.Layer):
     """~tf.matmul
     Do tf.matmul 2 tensors
@@ -79,14 +80,13 @@ class MatMul(kr.layers.Layer):
         output_shape = [input_shape[0][0], input_shape[0][1], input_shape[1][-1]]
         return tuple(output_shape)
 
-
+# how to use matmul+matmul_out_shape: x1 = Lambda(matmul, output_shape=matmul_out_shape)([inputs, transformation1])
 def matmul(inputs):
     A, B = inputs
     return tf.matmul(A, B)
 
 def matmul_out_shape(input_shape):
     shapeA, shapeB = input_shape
-    # print(shapeA, shapeB)
     assert shapeA[2] == shapeB[1]
     return tuple([shapeA[0], shapeA[1], shapeB[2]])
 
@@ -97,14 +97,14 @@ def expand_dim(global_feature, axis):
 
 def create_checkpoint_cb(directory: Union[str, Path]='checkpoints', filename: str='model.loss.{epoch:03d}.{val_loss:.4f}', monitor: str='val_loss', mode: str='auto'):
     makedir(path=directory, exist_ok=True)
-    callback = ModelCheckpoint(filepath=path2str(directory) + filename + '.hdf5',  # string, path to save the model file.
+    callback = ModelCheckpoint(filepath=path2str(directory) + '/' + filename + '.hdf5',  # string, path to save the model file.
                                monitor=monitor,  # quantity to monitor.
                                save_best_only=True, # if save_best_only=True, the latest best model according to the quantity monitored will not be overwritten.
                                mode=mode, # one of {auto, min, max}. If save_best_only=True, the decision to overwrite the current save file is made based on either the maximization or the minimization of the monitored quantity. For val_acc, this should be max, for val_loss this should be min, etc. In auto mode, the direction is automatically inferred from the name of the monitored quantity.
                                save_weights_only='false', # if True, then only the model's weights will be saved (model.save_weights(filepath)), else the full model is saved (model.save(filepath)).
                                period=1,  # Interval (number of epochs) between checkpoints.
                                verbose=1),  # verbosity mode, 0 or 1.
-    return callback
+    return callback[0]
 
 def create_graph_cb(directory: Union[str, Path]='logs'):
     makedir(path=directory, exist_ok=True)
@@ -115,9 +115,27 @@ def create_graph_cb(directory: Union[str, Path]='logs'):
                            write_grads=False, # whether to visualize gradient histograms in TensorBoard. histogram_freq must be greater than 0.
                            write_images=True,  # whether to write model weights to visualize as image in TensorBoard.
                            embeddings_freq=0),  # frequency (in epochs) at which selected embedding layers will be saved. If set to 0, embeddings won't be computed. Data to be visualized in TensorBoard's Embedding tab must be passed as embeddings_data.
-    return callback
+    return callback[0]
 
+import pickle
+def save_trn_history(history, saving_path: Union[str, Path]='/history.pickle'):
+    with open(saving_path, 'wb') as handle:
+        pickle.dump(history.history, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
+def save_pickle(obj, name: str='name', protocol: Optional[int]=pickle.HIGHEST_PROTOCOL):
+    try:
+        filename = open(name + ".pickle", 'wb')
+        pickle.dump(obj=obj, file=filename, protocol=protocol)
+        filename.close()
+        return True
+    except:
+        return False
+
+def load_pickle(name: str='name'):
+    filename = open(name + ".pickle", 'rb')
+    obj = pickle.load(file=filename)
+    filename.close()
+    return obj
 
 #==============================================================================
 # Main function
