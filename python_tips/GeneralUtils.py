@@ -28,6 +28,7 @@ import sys
 import time
 
 import numpy as np
+import pickle
 
 from typing import Union, Any, List, Optional
 # Source: https://docs.python.org/3/library/typing.html
@@ -168,6 +169,30 @@ def stack_list_vertical(arrs: List[np.ndarray]):
 
 def stack_list_horizontal(arrs: List[np.ndarray]):
     return np.hstack(arrs)
+
+
+'''**************************************************************
+Pickle lib
+'''
+def save_pickle(obj, name: str='name', protocol: Optional[int]=pickle.HIGHEST_PROTOCOL):
+    try:
+        handle = open(name + ".pickle", 'wb')
+        pickle.dump(obj=obj, file=handle, protocol=protocol)
+        handle.close()
+        return True
+    except:
+        return False
+
+def load_pickle(name: str):
+    """
+    Description:
+    :param name: str, file name without file extension
+    :return: obj
+    """
+    handle = open(name + ".pickle", 'rb')
+    obj = pickle.load(file=handle)
+    handle.close()
+    return obj
 
 #==============================================================================
 # Main function

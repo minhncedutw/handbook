@@ -120,22 +120,13 @@ def create_graph_cb(directory: Union[str, Path]='logs'):
 import pickle
 def save_trn_history(history, saving_path: Union[str, Path]='/history.pickle'):
     with open(saving_path, 'wb') as handle:
-        pickle.dump(history.history, handle, protocol=pickle.HIGHEST_PROTOCOL)
+        pickle.dump(obj=history.history, file=handle, protocol=pickle.HIGHEST_PROTOCOL)
 
-def save_pickle(obj, name: str='name', protocol: Optional[int]=pickle.HIGHEST_PROTOCOL):
-    try:
-        filename = open(name + ".pickle", 'wb')
-        pickle.dump(obj=obj, file=filename, protocol=protocol)
-        filename.close()
-        return True
-    except:
-        return False
-
-def load_pickle(name: str='name'):
-    filename = open(name + ".pickle", 'rb')
-    obj = pickle.load(file=filename)
-    filename.close()
+def load_trn_history(history_path: Union[str, Path]='/history.pickle'):
+    with open(history_path, 'rb') as handle:
+        obj = pickle.load(file=handle)
     return obj
+
 
 #==============================================================================
 # Main function
