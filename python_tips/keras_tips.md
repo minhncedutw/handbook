@@ -1,4 +1,5 @@
 
+#### --------------------------------------------------
 #### return effecient way
 ```python
 return A if condition else B # return A if condition True, else return B
@@ -71,5 +72,26 @@ model = Model(inputs=inputs, outputs=x1)
 print(model.summary())
 ```
 Source: https://keras.io/layers/writing-your-own-keras-layers/
+
+#### --------------------------------------------------
+#### keyboard input: dict
+```python
+# Define
+def input_dict() -> Dict:
+    user_input = input("Enter key and value separated by commas (;): ")
+    input_kwargs = dict(map(lambda l: l.split(), user_input.split(sep=';')))
+    return input_kwargs
+
+# Usage
+kwargs = input_dict()
+if 'verbose' in kwargs:
+    voxel_size = bool(kwargs['verbose'])
+if 'voxel_size' in kwargs:
+    voxel_size = float(kwargs['voxel_size'])
+#or
+attribute = kwargs.get('attribute', default_value)
+#or
+verbose = eval(str(verbose or kwargs.get('verbose')))
+```
 
 #### --------------------------------------------------
