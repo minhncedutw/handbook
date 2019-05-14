@@ -40,6 +40,22 @@ one_divided_180 = 1. / 180
 #==============================================================================
 # Function Definitions
 #==============================================================================
+def radian2degree(angles: np.ndarray):
+    return angles * one_divided_pi * 180
+
+
+def degree2radian(angles: np.ndarray):
+    return angles * one_divided_180 * np.pi
+
+
+def m2mm(coords: np.ndarray):
+    return coords * 1000
+
+
+def mm2m(coords: np.ndarray):
+    return coords * 0.001
+
+
 def label_to_color(labels: np.ndarray) -> np.ndarray:
     """
     Convert labels to colors(label's values must be in range [1, 6])
@@ -58,6 +74,7 @@ def label_to_color(labels: np.ndarray) -> np.ndarray:
     colors = np.array([map_label_to_rgb[label] for label in labels])
     return colors
 
+
 def pc_to_points(point_cloud: op3.PointCloud) -> np.ndarray:
     """
     Convert point cloud of Open3D object to numpy array
@@ -67,6 +84,7 @@ def pc_to_points(point_cloud: op3.PointCloud) -> np.ndarray:
     coords = np.asarray(point_cloud.points)
     colors = np.asarray(point_cloud.colors)
     return stack_list_horizontal((coords, colors))
+
 
 def points_to_pc(points: np.ndarray) -> op3.PointCloud:
     """
@@ -82,22 +100,26 @@ def points_to_pc(points: np.ndarray) -> op3.PointCloud:
             point_cloud.colors = op3.Vector3dVector(points[:, 3:6])
     return point_cloud
 
+
 def coords_colors_to_points(coords: np.ndarray, colors: np.ndarray) -> np.ndarray:
     return stack_list_horizontal(arrs=(coords, colors))
+
 
 def coords_colors_to_pc(coords: np.ndarray, colors: np.ndarray) -> op3.PointCloud:
     return points_to_pc(points=coords_colors_to_points(coords=coords, colors=colors))
 
+
 def coords_labels_to_points(coords: np.ndarray, labels: np.ndarray) -> np.ndarray:
     colors = label_to_color(labels=labels)
     return coords_colors_to_points(coords=coords, colors=colors)
+
 
 def coords_labels_to_pc(coords: np.ndarray, labels: np.ndarray) -> op3.PointCloud:
     colors = label_to_color(labels=labels)
     points = coords_colors_to_points(coords=coords, colors=colors)
     return points_to_pc(points=points)
 
-
+#========================================================================================
 def load_ply_as_pc(file_path: Union[str, Path]) -> op3.PointCloud:
     """
     Load a point cloud from a .ply file
@@ -107,6 +129,7 @@ def load_ply_as_pc(file_path: Union[str, Path]) -> op3.PointCloud:
     point_cloud = op3.read_point_cloud(filename=path2str(file_path))
     return point_cloud
 
+
 def load_ply_as_points(file_path: Union[str, Path]) -> np.ndarray:
     """
     Load a point cloud from a .ply file
@@ -115,6 +138,7 @@ def load_ply_as_points(file_path: Union[str, Path]) -> np.ndarray:
     """
     point_cloud = load_ply_as_pc(file_path=path2str(file_path))
     return pc_to_points(point_cloud)
+
 
 def measure_pc_centroid(point_cloud: Union[np.ndarray, op3.PointCloud]):
     """
@@ -126,6 +150,7 @@ def measure_pc_centroid(point_cloud: Union[np.ndarray, op3.PointCloud]):
     centroid = np.mean(points, axis=0)
     return centroid
 
+
 def sample_pc(point_cloud: op3.PointCloud, n_samples:int) -> op3.PointCloud:
     """
     Sample the point cloud
@@ -135,6 +160,7 @@ def sample_pc(point_cloud: op3.PointCloud, n_samples:int) -> op3.PointCloud:
     points = sample_arrays(arrs=(points), n_samples=n_samples)
     return points_to_pc(points)
 
+
 def visualize_pc(*args):
     """
     Visualize of list of point clouds
@@ -142,7 +168,8 @@ def visualize_pc(*args):
     """
     point_clouds = [points_to_pc(obj) for obj in args]
     op3.draw_geometries([*point_clouds])
-    
+
+#========================================================================================
 def visualize_registration(source: op3.PointCloud, target: op3.PointCloud, transformation: np.ndarray=np.eye(4)) -> None:
     """
     Visualize the matching performance of source on target through transformation
@@ -156,7 +183,8 @@ def visualize_registration(source: op3.PointCloud, target: op3.PointCloud, trans
     target_temp.paint_uniform_color([0, 0, 1]) # target point cloud: blue
     source_temp.transform(transformation)
     visualize_pc(source_temp, target_temp)
-    
+
+
 def sample_point_cloud_feature(point_cloud: op3.PointCloud, voxel_size: float, verbose=False):
     """
     Down sample and sample the point cloud feature
@@ -176,6 +204,7 @@ def sample_point_cloud_feature(point_cloud: op3.PointCloud, voxel_size: float, v
     if verbose: print(":: Compute FPFH feature with search radius %.3f." % radius_feature)
     point_cloud_fpfh = op3.compute_fpfh_feature(point_cloud_down_sample, op3.KDTreeSearchParamHybrid(radius=radius_feature, max_nn=100))
     return point_cloud_down_sample, point_cloud_fpfh
+
 
 def execute_global_registration(source_down: op3.PointCloud, target_down: op3.PointCloud, 
                                 source_fpfh: op3.PointCloud, target_fpfh: op3.PointCloud, 
@@ -203,8 +232,9 @@ def execute_global_registration(source_down: op3.PointCloud, target_down: op3.Po
     )
     return result
 
-def execute_fast_global_registration(source_down: op3.PointCloud, target_down: op3.PointCloud, 
-                                     source_fpfh: op3.PointCloud, target_fpfh: op3.PointCloud, 
+
+def execute_fast_global_registration(source_down: op3.PointCloud, target_down: op3.PointCloud,
+                                     source_fpfh: op3.PointCloud, target_fpfh: op3.PointCloud,
                                      voxel_size: float, verbose=False):
     """
     Find registertration to transform source point cloud to target point cloud
@@ -214,14 +244,16 @@ def execute_fast_global_registration(source_down: op3.PointCloud, target_down: o
     :return: a transformation object
     """
     distance_threshold = voxel_size * 0.5
-    if verbose: 
+    if verbose:
         print(":: Apply fast global registration with distance threshold %.3f" % distance_threshold)
     result = op3.registration_fast_based_on_feature_matching(
-        source_down, target_down, source_fpfh, target_fpfh, 
-        op3.FastGlobalRegistrationOption(maximum_correspondence_distance = distance_threshold))
+        source_down, target_down, source_fpfh, target_fpfh,
+        op3.FastGlobalRegistrationOption(maximum_correspondence_distance=distance_threshold)
+    )
     return result
 
-def refine_registration(source: op3.PointCloud, target: op3.PointCloud, 
+
+def refine_registration(source: op3.PointCloud, target: op3.PointCloud,
                         voxel_size: float, gross_matching: np.ndarray, verbose=False):
     """
     Refine the matching
@@ -231,7 +263,7 @@ def refine_registration(source: op3.PointCloud, target: op3.PointCloud,
     :param verbose: a boolean value, display notification and visualization when True and no notification when False
     :return: a transformation object
     """
-    distance_threshold = voxel_size * 1
+    distance_threshold = voxel_size * 0.4
     if verbose:
         print(":: Point-to-plane ICP registration is applied on original point")
         print("   clouds to refine the alignment. This time we use a strict")
@@ -239,79 +271,84 @@ def refine_registration(source: op3.PointCloud, target: op3.PointCloud,
     result = op3.registration_icp(source, target, distance_threshold,
                                   gross_matching.transformation,
                                   op3.TransformationEstimationPointToPlane(),
-                                  op3.ICPConvergenceCriteria(max_iteration=2000))
+                                  # op3.ICPConvergenceCriteria(max_iteration=2000)
+                                  )
     return result
 
-def global_icp(source: op3.PointCloud, target: op3.PointCloud, voxel_size = 0.005, verbose=False):
+
+def global_icp(source: op3.PointCloud, target: op3.PointCloud, voxel_size=0.005, verbose=False):
     """
     Find registertration to transform source point cloud to target point cloud
     :param source, target: 2 objects of Open3D, that are point clouds of source and target
     :param voxel_size: a float value, that is how sparse you want the sample points is
     :param verbose: a boolean value, display notification and visualization when True and no notification when False
     :return: a transformation object
-    
-    248 ms ± 36.9 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)
     """
-    if verbose: visualize_registration(source=source, target=target, transformation=np.identity(4))  # visualize point cloud
-    
-    # downsample data
-    source_down, source_fpfh = sample_point_cloud_feature(point_cloud=source, voxel_size=voxel_size, verbose=verbose)
-    target_down, target_fpfh = sample_point_cloud_feature(point_cloud=target, voxel_size=voxel_size, verbose=verbose)
+    if verbose: visualize_registration(source=source, target=target,
+                                       transformation=np.identity(4))  # visualize point cloud
 
     # 1st: gross matching(RANSAC)
-    result_ransac = execute_global_registration(source_down=source_down, target_down=target_down, 
-                                                source_fpfh=source_fpfh, target_fpfh=target_fpfh, 
-                                                voxel_size=voxel_size, verbose=verbose)
-    if verbose: visualize_registration(source=source_down, target=target_down, transformation=result_ransac.transformation)
+    source_down, source_fpfh = sample_point_cloud_feature(point_cloud=source, voxel_size=voxel_size, verbose=False)
+    target_down, target_fpfh = sample_point_cloud_feature(point_cloud=target, voxel_size=voxel_size, verbose=False)
+
+    result_ransac = execute_global_registration(source_down=source_down, target_down=target_down,
+                                                source_fpfh=source_fpfh, target_fpfh=target_fpfh,
+                                                voxel_size=voxel_size, verbose=False)
+    if verbose:
+        visualize_registration(source=source_down, target=target_down, transformation=result_ransac.transformation)
+        print(result_ransac)
 
     # 2nd: fine-tune matching(ICP)
-    result_icp = refine_registration(source=source_down, target=target_down, voxel_size=voxel_size, gross_matching=result_ransac)
-    if verbose: visualize_registration(source=source_down, target=target_down, transformation=result_icp.transformation)
+    source_down, source_fpfh = sample_point_cloud_feature(point_cloud=source, voxel_size=voxel_size/3, verbose=False)
+    target_down, target_fpfh = sample_point_cloud_feature(point_cloud=target, voxel_size=voxel_size/3, verbose=False)
+
+    result_icp = refine_registration(source=source_down, target=target_down, voxel_size=voxel_size,
+                                     gross_matching=result_ransac)
+    if verbose:
+        visualize_registration(source=source_down, target=target_down, transformation=result_icp.transformation)
+        print(result_icp)
     return result_icp
 
-def fast_global_icp(source: op3.PointCloud, target: op3.PointCloud, voxel_size = 0.005, verbose=False):
+
+def fast_global_icp(source: op3.PointCloud, target: op3.PointCloud, voxel_size=0.005, verbose=False):
     """
     Find registertration to transform source point cloud to target point cloud
     :param source, target: 2 objects of Open3D, that are point clouds of source and target
     :param voxel_size: a float value, that is how sparse you want the sample points is
     :param verbose: a boolean value, display notification and visualization when True and no notification when False
     :return: a transformation object
-    
-    19.9 ms ± 1.28 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
     """
-    if verbose: visualize_registration(source=source, target=target, transformation=np.identity(4))  # visualize point cloud
-    
-    # downsample data
+    if verbose: visualize_registration(source=source, target=target,
+                                       transformation=np.identity(4))  # visualize point cloud
+
+    # 1st: gross matching(RANSAC)
     source_down, source_fpfh = sample_point_cloud_feature(point_cloud=source, voxel_size=voxel_size, verbose=verbose)
     target_down, target_fpfh = sample_point_cloud_feature(point_cloud=target, voxel_size=voxel_size, verbose=verbose)
 
-    # 1st: gross matching(Fast global registration)
-    result_ransac = execute_fast_global_registration(source_down=source_down, target_down=target_down, 
-                                                source_fpfh=source_fpfh, target_fpfh=target_fpfh, 
-                                                voxel_size=voxel_size, verbose=verbose)
-    if verbose: visualize_registration(source=source_down, target=target_down, transformation=result_ransac.transformation)
+    result = execute_fast_global_registration(source_down=source_down, target_down=target_down,
+                                                     source_fpfh=source_fpfh, target_fpfh=target_fpfh,
+                                                     voxel_size=voxel_size, verbose=verbose)
+    if verbose:
+        visualize_registration(source=source_down, target=target_down, transformation=result.transformation)
+        print(result)
 
     # 2nd: fine-tune matching(ICP)
-    result_icp = refine_registration(source=source_down, target=target_down, voxel_size=voxel_size, gross_matching=result_ransac)
-    if verbose: visualize_registration(source=source_down, target=target_down, transformation=result_icp.transformation)
+    source_down, source_fpfh = sample_point_cloud_feature(point_cloud=source, voxel_size=voxel_size/3, verbose=verbose)
+    target_down, target_fpfh = sample_point_cloud_feature(point_cloud=target, voxel_size=voxel_size/3, verbose=verbose)
+
+    result_icp = refine_registration(source=source_down, target=target_down, voxel_size=voxel_size, gross_matching=result)
+    if verbose:
+        visualize_registration(source=source_down, target=target_down, transformation=result_icp.transformation)
+        print(result_icp)
     return result_icp
 
+#========================================================================================
 def adjust_pc_coords(point_cloud: op3.PointCloud, coord: Tuple[float, float, float]):
     new_point_cloud = copy.deepcopy(point_cloud)
     new_point_cloud.points = op3.Vector3dVector(np.asarray(new_point_cloud.points) - np.asarray(coord))
     return new_point_cloud
 
-def radian2degree(angles: np.ndarray):
-    return angles * one_divided_pi * 180
 
-def degree2radian(angles: np.ndarray):
-    return angles * one_divided_180 * np.pi
-
-def m2mm(coords: np.ndarray):
-    return coords * 1000
-
-def mm2m(coords: np.ndarray):
-    return coords * 0.001
 
 #==============================================================================
 # Main function

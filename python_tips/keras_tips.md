@@ -1,4 +1,9 @@
 
+#### return effecient way
+```python
+return A if condition else B # return A if condition True, else return B
+```
+
 #### --------------------------------------------------
 #### lambda(matmul example)
 ```python

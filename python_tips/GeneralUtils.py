@@ -30,7 +30,7 @@ import time
 import numpy as np
 import pickle
 
-from typing import Union, Any, List, Tuple, Optional
+from typing import Union, List, Tuple, Optional, Any
 # Source: https://docs.python.org/3/library/typing.html
 # Source: https://mypy.readthedocs.io/en/latest/cheat_sheet_py3.html
 
@@ -135,7 +135,7 @@ def rand_float_arr(size: List[np.uint]) -> np.ndarray:
 def sample_indices(n_samples: int, max_index: int, replace: bool=None) -> np.ndarray:
     """
     Get a list indice sample for an array
-    :param num_samples: an integer, number of expected samples
+    :param n_samples: an integer, number of expected samples
     :param length: an integer, length of array
     :return: an array of numpy, is a list of indices
     """
@@ -145,24 +145,29 @@ def sample_indices(n_samples: int, max_index: int, replace: bool=None) -> np.nda
     return new_indices
 
 
-def sample_arrays(arrs: List[np.ndarray], num_samples: int) -> List[np.ndarray]:
+def sample_arrays(arrs: Union[np.ndarray, List[np.ndarray], Tuple[np.ndarray]], n_samples: int) -> List[np.ndarray]:
     """
     Sample a list of arrays
-    :param num_samples: an integer, number of expected samples
-    :param return_indices: a boolean, that you want to return indices with your sampled arrays or not
-    :param **kwargs: a list of arguments, is a list of arrays that you want to synchronically sample(they must have the same length)
-    :return: a list of numpy array, that are synchronically-sampled arrays(include indices if toggle on 'return_indices')
+    :param arrs: List or Tuple of ndarray, the arrays that need to be sampled
+    :param n_samples: an integer, number of expected samples
+    :return: a list of numpy array, that are synchronically-sampled arrays
     """
+    if isinstance(arrs, List) or isinstance(arrs, Tuple):
+        list_or_tuple = True
+    else:
+        list_or_tuple = False
+        arrs = [arrs]
+
     lengths = [len(arr) for arr in arrs]
-    assert len(np.unique(lengths)) == 1, "Input arguments must have SAME length!"
+    assert len(np.unique(lengths)) == 1, "Input arrss must have SAME length!"
 
     # random selecting sample indices
-    new_indices = sample_indices(n_samples=num_samples, max_index=lengths[0])
+    new_indices = sample_indices(n_samples=n_samples, max_index=lengths[0])
 
     # shuffle all arrays by the same order
     results = [arr[new_indices] for arr in arrs]
 
-    return results
+    return results if list_or_tuple else results[0] # Return list if input arrs is list or arrays, else return array
 
 def stack_list_vertical(arrs: List[np.ndarray]):
     return np.vstack(arrs)
