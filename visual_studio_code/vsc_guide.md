@@ -86,3 +86,20 @@ F11     Step into
 	},
 ...
 ```
+
+#### Integrate cmder
+Open `VSCode Settings > Features > Terminal`. Then `Open Settings (JSON)`(top right corner)
+add these code into `settings.json`
+```
+  "terminal.integrated.shell.windows": "cmd.exe",
+
+  "terminal.integrated.env.windows": {
+  "CMDER_ROOT": "[cmder_root]"
+  },
+  "terminal.integrated.shellArgs.windows": [
+    "/k [cmder_root]\\vendor\\init.bat"
+  ],
+```
+**! Modify** `[cmder_root]` by your path to cmder
+
+Source: https://github.com/cmderdev/cmder/wiki/Seamless-VS-Code-Integration
