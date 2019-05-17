@@ -1,4 +1,16 @@
 
+Guide Include Path: https://github.com/Microsoft/vscode-cpptools/blob/master/Documentation/Getting%20started%20with%20IntelliSense%20configuration.md
+Guide predefined variables: https://code.visualstudio.com/docs/editor/variables-reference
+Guide hotkeys: https://code.visualstudio.com/docs/getstarted/keybindings
+
+**Command hotkeys**: (File > Preferences > Keyboard Shotcuts)
+ - Open Terminal: ``Ctrl+` ``
+ - Open Command Palette: `Ctrl+Shift+P`
+ - Build project: `Ctrl+Shift+B`
+ - Debug project: `F5`
+ - Debug Step over: `F10`
+ - Comment: `Ctrl+/`
+
 #### Install
 1. Download [Visual Studio Code](https://code.visualstudio.com/)
 2. cd to folder of downloaded VSC
@@ -103,3 +115,4 @@ add these code into `settings.json`
 **! Modify** `[cmder_root]` by your path to cmder
 
 Source: https://github.com/cmderdev/cmder/wiki/Seamless-VS-Code-Integration
+

@@ -1,15 +1,11 @@
 
-Source: https://code.visualstudio.com/docs/cpp/config-msvc
-
-**Command hotkeys**: (File > Preferences > Keyboard Shotcuts)
- - Open Terminal: ``Ctrl+` ``
- - Open Command Palette: `Ctrl+Shift+P`
- - Build project: `Ctrl+Shift+B`
- - Debug project: `F5`
- - Debug Step over: `F10`
- - Comment: `Ctrl+/`
+Guide: https://code.visualstudio.com/docs/cpp/config-msvc
 
 ### Steps
+0. Prepare System Environment Environment:
+    - Add to system Path dir of `cl.exe`: `C:/Program Files (x86)/Microsoft Visual Studio 12.0/VC/bin/`
+    - Add to system Path dir of `vcvarsall.bat`: `C:/Program Files (x86)/Microsoft Visual Studio 12.0/VC/`
+
 1. Config
     - compiler path(c_cpp_properties.json): press `Ctrl+Shift+P` then type `C/C++: Edit Configurations...`
     - how to build(tasks.json): press `Ctrl+Shift+P` then type `Tasks: Configure Default Build Task` then choose `Others`
@@ -22,20 +18,25 @@ Source: https://code.visualstudio.com/docs/cpp/config-msvc
     - `F5`
 
 ### Template:
+Source from `pflannery`: https://github.com/Microsoft/vscode-cpptools/issues/1839
+(Should try? https://devblogs.microsoft.com/cppblog/building-your-c-application-with-visual-studio-code/)
 c_cpp_properties.json
 ```json
 {
     "configurations": [
         {
             "name": "Win32",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "C:/Program Files (x86)/Microsoft Visual Studio 12.0/VC/include"
+            ],
             "defines": [
                 "_DEBUG",
                 "UNICODE",
                 "_UNICODE"
             ],
-            "compilerPath": "C:/Program Files (x86)/Microsoft Visual Studio/2017/BuildTools/VC/Tools/MSVC/14.16.27023/bin/Hostx64/x64/cl.exe",
-            "windowsSdkVersion": "10.0.17763.0",
             "intelliSenseMode": "msvc-x64",
+            "compilerPath": "cl.exe",
             "cStandard": "c11",
             "cppStandard": "c++17"
         }
@@ -50,18 +51,13 @@ tasks.json
     // See https://go.microsoft.com/fwlink/?LinkId=733558
     // for the documentation about the tasks.json format
     "version": "2.0.0",
+    "echoCommand": true,
     "tasks": [
         {
-            "label": "msvc 12 build",
-            "type": "shell",
-            "command": "cl.exe",
-            "args": [
-                "/EHsc",
-                "/Zi",
-                "/Fe:",
-                "helloworld.exe",
-                "helloworld.cpp"
-            ],
+            "label": "full auto-build msvc12",
+            "type": "process",
+            "command": "cmd",
+            "args": ["/C mkdir %OutPath% && %vcvarsall% && cl /Od /Zi /EHsc /Fd:%OutPath%/vc120.pdb /Fo:%OutPath%/%TarName%.obj ${fileBasename} /link /OUT:%OutPath%/%TarName%.%TarExt% /PDB:%OutPath%/%TarName%.pdb"],
             "group": {
                 "kind": "build",
                 "isDefault": true
@@ -71,7 +67,15 @@ tasks.json
             },
             "problemMatcher": "$msCompile"
         }
-    ]
+    ],
+    "options": {
+        "env": {
+            "OutPath": "output",
+            "TarName": "${fileBasenameNoExtension}",
+            "TarExt": "exe",
+            "vcvarsall": "vcvarsall.bat x64",
+        }
+    }
 }
 ```
 
@@ -83,14 +87,13 @@ launch.json
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-
         {
-            "name": "(msvc 12) Launch",
+            "name": "(Windows) Launch",
             "type": "cppvsdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/helloworld.exe",
+            "program": "${workspaceFolder}/output/${fileBasenameNoExtension}.exe",
             "args": [],
-            "stopAtEntry": true,
+            "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
             "externalConsole": true
