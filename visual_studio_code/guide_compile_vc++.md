@@ -1,8 +1,13 @@
 
 Source: https://code.visualstudio.com/docs/cpp/config-msvc
 
-**Command hotkeys**:
- - Open terminal: ``Ctrl + \``
+**Command hotkeys**: (File > Preferences > Keyboard Shotcuts)
+ - Open Terminal: ``Ctrl+` ``
+ - Open Command Palette: `Ctrl+Shift+P`
+ - Build project: `Ctrl+Shift+B`
+ - Debug project: `F5`
+ - Debug Step over: `F10`
+ - Comment: `Ctrl+/`
 
 ### Steps
 1. Config
