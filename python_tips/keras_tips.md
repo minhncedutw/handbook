@@ -74,7 +74,7 @@ print(model.summary())
 Source: https://keras.io/layers/writing-your-own-keras-layers/
 
 #### --------------------------------------------------
-#### keyboard input: dict
+#### keyboard input dict
 ```python
 # Define
 def input_dict() -> Dict:
@@ -94,4 +94,21 @@ attribute = kwargs.get('attribute', default_value)
 verbose = eval(str(verbose or kwargs.get('verbose')))
 ```
 
+#### keyboard input CLI
+```python
+def input_cli():
+    user_input = input("Enter key and value separated by commas (;): ")
+    custom_parser = argparse.ArgumentParser()
+    custom_parser.add_argument('-vb', '--verbose', type=bool, help='show detail results')
+    custom_parser.add_argument('-vs', '--voxel_size', type=float, help='adjust voxel size')
+    custom_parser.add_argument('-ft', '--fitness_threshold', type=float, help='adjust voxel size')
+    custom_args = custom_parser.parse_args(user_input.split())
+    return custom_args
+
+# Usage
+custom_args = input_cli()
+if custom_args.verbose: verbose = custom_args.verbose
+if custom_args.voxel_size: voxel_size = custom_args.voxel_size
+if custom_args.fitness_threshold: fitness_threshold = custom_args.fitness_threshold
+```
 #### --------------------------------------------------
