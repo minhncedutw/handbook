@@ -1,0 +1,40 @@
+name: fastai
+channels:
+  - fastai
+  - pytorch
+  - scw
+  - conda-forge
+  - defaults
+dependencies:
+  - bcolz
+  - beautifulsoup4
+  - bleach
+  - bokeh
+  - bottleneck
+  - cython
+  - decorator
+  - dill
+  - graphviz
+  - hdf5
+  - ipython
+  - jupyter
+  - jupyterlab
+  - numpy
+  - opencv
+  - pillow
+  - pip
+  - pylint
+  - python=3.6
+  - seaborn
+  - statsmodels
+  - tqdm
+  - cudatoolkit
+  - scipy
+  - fastai
+  - fastprogress
+  - spacy
+  - pytorch=1.0.0
+  - torchvision
+  - matplotlib
+  - pillow-simd
+

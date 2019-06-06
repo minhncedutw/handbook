@@ -1,0 +1,8 @@
+import toolset : using ;
+using python 
+: 3.6  # Version
+: E:/WORKSPACES/Miniconda/envs/keras/python.exe  # Interpreter
+: E:/WORKSPACES/Miniconda/envs/keras/include  # inc dir
+: E:/WORKSPACES/Miniconda/envs/keras/libs  # link libs
+: <toolset>msvc
+;
